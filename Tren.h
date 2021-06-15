@@ -9,7 +9,8 @@ private:
 	//Punteros de la lista
 	pnodo primero; //primer vagon 
 	pnodo actual;  //vagon actual 
-	
+	Texture *tex_train;
+	Sprite *sprite_train;	
 public:
 	Tren();
 
@@ -30,7 +31,9 @@ public:
 	
 	//Controla la colision de los vagones
 	void ControlarColisiones();
-
+	
+	void MostrarLista(RenderWindow& wnd);
+	
 	~Tren();
 
 };

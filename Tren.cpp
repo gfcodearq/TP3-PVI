@@ -5,6 +5,8 @@ using namespace sf;
 Tren::Tren()
 {
 	
+	tex_train = new Texture;
+	tex_train->loadFromFile("Recursos//Imagenes//locomotora.png");
 }
 
 void Tren::Insertar(int v) //Metodo para insertar vagones de forma ordenada
@@ -37,7 +39,8 @@ void Tren::Borrar(int v) //Metodo para eliminar vagones
 		Vagon *referenciaAnterior = NULL;
 		while(auxiliarBorrado !=NULL) //Y la suma de correctamente
 		{
-			referenciaAnterior = auxiliarBorrado->siguiente;
+			referenciaAnterior = auxiliarBorrado;
+			auxiliarBorrado = auxiliarBorrado->siguiente;
 		}
 		if(auxiliarBorrado == NULL)
 		{
@@ -46,12 +49,12 @@ void Tren::Borrar(int v) //Metodo para eliminar vagones
 		else if(referenciaAnterior == NULL)
 		{
 			primero = primero->siguiente;
-			delete auxiliarBorrado;
+			//delete auxiliarBorrado;
 		}
 		else 
 		{
 			referenciaAnterior->siguiente = auxiliarBorrado->siguiente;
-			delete auxiliarBorrado;
+			//delete auxiliarBorrado;
 		}
 	}	
 }
@@ -60,7 +63,10 @@ void Tren::Borrar(int v) //Metodo para eliminar vagones
 
 bool Tren::TrenVacio() //Si el tren no tiene vagones retorna true
 {
-	
+	if(primero == NULL)
+	{
+		return true;
+	}
 }
 
 int Tren::obtenerCantidadVagones()//obtiene la canitadad de vagones 
@@ -73,8 +79,8 @@ void Tren::ControlarColisiones()
 	Vagon *actual = primero;
 	FloatRect ColliderWagon = actual->spriteWagon->getGlobalBounds();
 	while(actual != NULL)
-	{
-		FloatRect ColliderTrain = train->spriteTrain->getGlobalBounds();
+	{		
+		FloatRect ColliderTrain = sprite_train->getGlobalBounds();
 		if(ColliderWagon.intersects(ColliderTrain))
 		{
 			//Motrar en pantalla la suma 
@@ -86,3 +92,14 @@ void Tren::ControlarColisiones()
 	}
 }
 
+void Tren::MostrarLista(RenderWindow &wnd)
+{
+	Vagon *actual = primero;
+	Vector2f posicion;
+	posicion.x = 15;
+	posicion.y =30;
+	while(actual = NULL)
+	{
+		actual->txt_vagon->setPosition(actual->spriteWagon->getPosition().x /2,actual->spriteWagon->getPosition().y);	
+	}
+}
