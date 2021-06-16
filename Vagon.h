@@ -28,7 +28,7 @@ public:
 	Vagon (int nro, sf::Sprite *spr, Vagon *sig = NULL)
 	{
 		fuente = new Font();
-		fuente->loadFromFile("");			
+		fuente->loadFromFile("Recursos//Textos//Stenciland.otf");			
 		txt_vagon = new Text();
 		txt_vagon->setFont(*fuente);
 		txt_vagon->setString(to_string(nro));

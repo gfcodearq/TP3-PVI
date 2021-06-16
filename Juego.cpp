@@ -25,7 +25,7 @@ Juego::Juego(Vector2i resolucion, string titulo)
 	sonido_game = new Sound;
 	sonido_colision = new Sound;
 	//Inicio game over en false
-	game_over = false;
+	game_over = false;	
 	gameloop();
 	
 	
@@ -42,7 +42,7 @@ void Juego::gameloop()
 		if(!game_over)
 		{
 			procesar_eventos();
-			procesar_colisiones();
+			procesar_colisiones();			
 		}
 		dibujar();
 	}
@@ -50,7 +50,7 @@ void Juego::gameloop()
 
 void Juego::procesar_eventos()
 {
-	
+	train->Insertar(5);
 }
 
 void Juego::cargar_recursos()
@@ -73,17 +73,17 @@ void Juego::cargar_recursos()
 	
 	
 	//Cargar sonidos
-	if(!buffer->loadFromFile("Recursos\\sonidos\\mario-bros-jump.wav"))
+	if(!buffer->loadFromFile("Recursos\\sonidos\\"))
 	{
 		cout<<"No se pudo cargar efectos"<<endl;
 	}
 	sonido->setBuffer(*buffer);
-	if(!buffer_game->loadFromFile("Recursos\\sonidos\\super-mario-bros.wav"))
+	if(!buffer_game->loadFromFile("Recursos\\sonidos\\"))
 	{
 		cout<<"No se pudo cargar efectos"<<endl;
 	}
 	sonido_game->setBuffer(*buffer_game);
-	if(!buffer_colision->loadFromFile("Recursos\\sonidos\\mario-bros-coin.wav"))
+	if(!buffer_colision->loadFromFile("Recursos\\sonidos\\"))
 	{
 		cout<<"No se pudo cargar efectos"<<endl;
 	}
@@ -100,7 +100,8 @@ void Juego::dibujar()
 	wnd->clear(Color(255,255,255,255)); //limpia la pantalla	
 	wnd->draw(*spr_background);
 	wnd->draw(*spr_central_inicio);
-	wnd->draw(*spr_central_final);
+	wnd->draw(*spr_central_final);	
+	train->MostrarLista(*wnd);
 	//wagon->dibujar(wnd);
 	wnd->display();
 }

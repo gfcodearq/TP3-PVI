@@ -11,6 +11,7 @@ private:
 	pnodo actual;  //vagon actual 
 	Texture *tex_train;
 	Sprite *sprite_train;	
+	int CantVagones = 0;
 public:
 	Tren();
 

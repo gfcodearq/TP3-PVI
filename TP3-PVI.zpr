@@ -15,7 +15,7 @@ tab_width=4
 tab_use_spaces=0
 explorer_path=.
 inherits_from=
-current_source=Juego.cpp
+current_source=Tren.cpp
 path_char=\
 [source]
 path=main.cpp
@@ -23,15 +23,15 @@ cursor=1:18
 open=true
 [source]
 path=Juego.cpp
-cursor=103:3
+cursor=103:27
 open=true
 [source]
 path=Tren.cpp
-cursor=51:5
+cursor=5:1
 open=true
 [header]
 path=Tren.h
-cursor=35:1
+cursor=36:1
 open=true
 [header]
 path=Juego.h
@@ -39,7 +39,7 @@ cursor=53:27
 open=true
 [header]
 path=Vagon.h
-cursor=35:47
+cursor=30:54
 open=true
 [other]
 path=Leeme.txt

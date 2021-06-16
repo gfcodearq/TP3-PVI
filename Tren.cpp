@@ -3,8 +3,7 @@
 using namespace sf;
 
 Tren::Tren()
-{
-	
+{	
 	tex_train = new Texture;
 	tex_train->loadFromFile("Recursos//Imagenes//locomotora.png");
 }
@@ -49,6 +48,7 @@ void Tren::Borrar(int v) //Metodo para eliminar vagones
 		else if(referenciaAnterior == NULL)
 		{
 			primero = primero->siguiente;
+			CantVagones --;
 			//delete auxiliarBorrado;
 		}
 		else 
@@ -71,7 +71,7 @@ bool Tren::TrenVacio() //Si el tren no tiene vagones retorna true
 
 int Tren::obtenerCantidadVagones()//obtiene la canitadad de vagones 
 {
-	
+	return CantVagones;
 }
 
 void Tren::ControlarColisiones()
@@ -84,6 +84,9 @@ void Tren::ControlarColisiones()
 		if(ColliderWagon.intersects(ColliderTrain))
 		{
 			//Motrar en pantalla la suma 
+			Insertar(5);
+			CantVagones ++;
+			return;
 		}
 		else
 		{
@@ -101,5 +104,6 @@ void Tren::MostrarLista(RenderWindow &wnd)
 	while(actual = NULL)
 	{
 		actual->txt_vagon->setPosition(actual->spriteWagon->getPosition().x /2,actual->spriteWagon->getPosition().y);	
+		actual->dibujar(wnd);	
 	}
 }
