@@ -1,11 +1,14 @@
 #include "Tren.h"
-
+#include <iostream>
 using namespace sf;
 
-Tren::Tren()
+Tren::Tren(int posX,int posY)
 {	
 	tex_train = new Texture;
 	tex_train->loadFromFile("Recursos//Imagenes//locomotora.png");
+	sprite_train = new Sprite(*tex_train);
+	sprite_train->scale(0.7,0.7);
+	sprite_train->setPosition(posX,posY);
 }
 
 void Tren::Insertar(int v) //Metodo para insertar vagones de forma ordenada
@@ -104,6 +107,22 @@ void Tren::MostrarLista(RenderWindow &wnd)
 	while(actual = NULL)
 	{
 		actual->txt_vagon->setPosition(actual->spriteWagon->getPosition().x /2,actual->spriteWagon->getPosition().y);	
-		actual->dibujar(wnd);	
+		actual->dibujar(wnd);
+		actual = actual->siguiente; //apunto al nodo siguiente
 	}
+}
+
+void Tren::Dibujar(RenderWindow *wnd)
+{
+	wnd->draw(*sprite_train);
+}
+
+void Tren::Actualizar()
+{
+	sprite_train->setPosition(sprite_train->getPosition().x+3,sprite_train->getPosition().y);
+	if(sprite_train->getPosition().x > 800) // si pasa los limites de la pantalla bajo un nivel
+	{
+		cout<<"Paso los limites"<<endl;
+		sprite_train->setPosition(0,sprite_train->getPosition().y + 100);
+	}	
 }

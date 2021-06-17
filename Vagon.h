@@ -13,7 +13,7 @@ class Vagon
 {
 private:
 	//Numero para imprimir en vagon
-	int nroEnVagon;
+	int nroEnVagon =  rand() % 10 + 1; //Creo un numero aleatorio entre 1 y 10
 	//Vagon siguiente
 	Vagon *siguiente;
 	//Spritedel vagon

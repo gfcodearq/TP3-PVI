@@ -1,7 +1,7 @@
 
 #include "Vagon.h"
 
-typedef Vagon *pnodo;
+typedef Vagon *pnodo; //Nuestra lista??
 
 class Tren{
 
@@ -13,7 +13,7 @@ private:
 	Sprite *sprite_train;	
 	int CantVagones = 0;
 public:
-	Tren();
+	Tren(int posX,int posY);
 
 	//Devuelve el valor del último nodo
 	int Ultimo();
@@ -34,7 +34,8 @@ public:
 	void ControlarColisiones();
 	
 	void MostrarLista(RenderWindow& wnd);
-	
+	void Dibujar(RenderWindow *wnd);
+	void Actualizar();
 	~Tren();
 
 };

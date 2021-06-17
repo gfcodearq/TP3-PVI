@@ -26,9 +26,10 @@ Juego::Juego(Vector2i resolucion, string titulo)
 	sonido_colision = new Sound;
 	//Inicio game over en false
 	game_over = false;	
-	gameloop();
-	
-	
+	train = new Tren(120,51);
+	wagon = NULL; //inicializo la lista
+	//Gameloop
+	gameloop();	
 }
 
 void Juego::gameloop()
@@ -41,8 +42,9 @@ void Juego::gameloop()
 	{
 		if(!game_over)
 		{
+			train->Actualizar();
 			procesar_eventos();
-			procesar_colisiones();			
+			procesar_colisiones();				
 		}
 		dibujar();
 	}
@@ -50,7 +52,13 @@ void Juego::gameloop()
 
 void Juego::procesar_eventos()
 {
-	train->Insertar(5);
+	while (wnd->pollEvent(*evento))
+	{
+		if (evento->type == Event::Closed)
+		{
+			wnd->close();
+		}
+	}
 }
 
 void Juego::cargar_recursos()
@@ -101,8 +109,11 @@ void Juego::dibujar()
 	wnd->draw(*spr_background);
 	wnd->draw(*spr_central_inicio);
 	wnd->draw(*spr_central_final);	
-	train->MostrarLista(*wnd);
-	//wagon->dibujar(wnd);
+	train->Dibujar(wnd);
+	if(wagon !=NULL)
+	{		
+		train->MostrarLista(*wnd);
+	}		
 	wnd->display();
 }
 

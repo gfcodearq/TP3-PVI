@@ -31,7 +31,7 @@ private:
 	//Tren
 	Tren *train;
 	//Vagon 
-	Vagon *wagon;
+	Vagon *wagon; //Lista
 	//Sonido 
 	SoundBuffer* buffer; //Contiene el archivo de sonido
 	Sound* sonido; //Sonido va a cargar el buffer
@@ -51,6 +51,6 @@ private:
 	Texture * tex_central_inicio;
 	Sprite *spr_central_inicio;
 	Texture * tex_central_final;
-	Sprite *spr_central_final;
+	Sprite *spr_central_final;	
 };
 #endif
