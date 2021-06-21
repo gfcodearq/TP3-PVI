@@ -26,8 +26,7 @@ Juego::Juego(Vector2i resolucion, string titulo)
 	sonido_colision = new Sound;
 	//Inicio game over en false
 	game_over = false;	
-	train = new Tren(120,51);
-	wagon = NULL; //inicializo la lista
+	train = new Tren(120,51);	
 	//Gameloop
 	gameloop();	
 }
@@ -43,9 +42,10 @@ void Juego::gameloop()
 		if(!game_over)
 		{
 			train->Actualizar();
+			train->ControlarColisiones();
 			procesar_eventos();
 			procesar_colisiones();				
-		}
+		}		
 		dibujar();
 	}
 }
@@ -59,10 +59,11 @@ void Juego::procesar_eventos()
 			wnd->close();
 		}
 	}
+	
 }
 
 void Juego::cargar_recursos()
-{
+{	
 	//Sprites y texturas
 	tex_background = new Texture;
 	tex_background->loadFromFile("Recursos\\Imagenes\\background.png");
@@ -78,6 +79,16 @@ void Juego::cargar_recursos()
 	spr_central_final = new Sprite(*tex_central_final);
 	spr_central_final->setPosition(650,400);
 	
+	fuente1 = new Font;
+	fuente1->loadFromFile("Recursos\\Textos\\Stenciland.otf");
+	txt_game_over = new Text();
+	txt_game_over->setFont(*fuente1);
+	txt_game_over->setPosition(330,330);
+	txt_game_over->setString("GAME OVER");
+	txt_operacion = new Text;
+	txt_operacion->setFont(*fuente1);
+	txt_operacion->setPosition(train->get_sprite().getPosition().x,train->get_sprite().getPosition().y + 30);
+	txt_operacion->setString("Operacion");	
 	
 	
 	//Cargar sonidos
@@ -99,8 +110,13 @@ void Juego::cargar_recursos()
 }
 
 void Juego::procesar_colisiones()
-{
-	
+{	
+	FloatRect ColliderCentralFinal = spr_central_final->getGlobalBounds();
+	if(ColliderCentralFinal.intersects(train->get_sprite().getGlobalBounds()))
+	{
+		game_over = true;
+	}
+	train->ControlarColisiones();	
 }
 
 void Juego::dibujar()
@@ -110,11 +126,12 @@ void Juego::dibujar()
 	wnd->draw(*spr_central_inicio);
 	wnd->draw(*spr_central_final);	
 	train->Dibujar(wnd);
-	if(wagon !=NULL)
-	{		
-		train->MostrarLista(*wnd);
-	}		
+	train->MostrarLista(*wnd);
 	wnd->display();
+	if(game_over)
+	{
+		wnd->draw(*txt_game_over);
+	}	
 }
 
 void Juego::actualizar()

@@ -1,5 +1,7 @@
 #include "Tren.h"
 #include <iostream>
+#include <string>
+
 using namespace sf;
 
 Tren::Tren(int posX,int posY)
@@ -9,12 +11,23 @@ Tren::Tren(int posX,int posY)
 	sprite_train = new Sprite(*tex_train);
 	sprite_train->scale(0.7,0.7);
 	sprite_train->setPosition(posX,posY);
+	laListaEsEsto = NULL;
+	Insertar(5,200,155);
+	Insertar(5,500,350);	
+	reloj = new Clock;
+	tiempo =  new Time;	
+	fuente3 = new Font;
+	txt_tiempo = new Text;
+	txt_tiempo->setFont(*fuente3);
+	txt_tiempo->setPosition(700,20);	
 }
 
-void Tren::Insertar(int v) //Metodo para insertar vagones de forma ordenada
+void Tren::Insertar(int v,int posX,int posY) //Metodo para insertar vagones de forma ordenada
 {
 	Vagon *wagon = new Vagon(v,wagon->spriteWagon,wagon->siguiente);
-	Vagon *firstAuxiliar = primero;
+	wagon->spriteWagon->setPosition(posX,posY);
+	wagon->setValor(v);
+	Vagon *firstAuxiliar = laListaEsEsto;
 	Vagon *secondAuxiliar = NULL;
 	
 	while(firstAuxiliar != NULL && wagon->nroEnVagon > v )
@@ -22,22 +35,22 @@ void Tren::Insertar(int v) //Metodo para insertar vagones de forma ordenada
 		secondAuxiliar = firstAuxiliar;
 		firstAuxiliar = firstAuxiliar->siguiente;		
 	}
-	if(primero == firstAuxiliar)
+	if(laListaEsEsto == firstAuxiliar)
 	{
-		primero = wagon;
+		laListaEsEsto = wagon;
 	}
 	else
 	{
-	 secondAuxiliar->siguiente = wagon;	
+		secondAuxiliar->siguiente = wagon;	
 	}
 	wagon->siguiente = firstAuxiliar;
 }
 
 void Tren::Borrar(int v) //Metodo para eliminar vagones
 {
-	if(primero !=NULL)
+	if(laListaEsEsto !=NULL)
 	{
-		Vagon *auxiliarBorrado = primero;
+		Vagon *auxiliarBorrado = laListaEsEsto;
 		Vagon *referenciaAnterior = NULL;
 		while(auxiliarBorrado !=NULL) //Y la suma de correctamente
 		{
@@ -50,7 +63,7 @@ void Tren::Borrar(int v) //Metodo para eliminar vagones
 		}
 		else if(referenciaAnterior == NULL)
 		{
-			primero = primero->siguiente;
+			laListaEsEsto = laListaEsEsto->siguiente;
 			CantVagones --;
 			//delete auxiliarBorrado;
 		}
@@ -66,7 +79,7 @@ void Tren::Borrar(int v) //Metodo para eliminar vagones
 
 bool Tren::TrenVacio() //Si el tren no tiene vagones retorna true
 {
-	if(primero == NULL)
+	if(laListaEsEsto == NULL)
 	{
 		return true;
 	}
@@ -79,42 +92,46 @@ int Tren::obtenerCantidadVagones()//obtiene la canitadad de vagones
 
 void Tren::ControlarColisiones()
 {
-	Vagon *actual = primero;
-	FloatRect ColliderWagon = actual->spriteWagon->getGlobalBounds();
+	Vagon *actual = laListaEsEsto;
+	FloatRect ColliderTrain = sprite_train->getGlobalBounds();	
 	while(actual != NULL)
 	{		
-		FloatRect ColliderTrain = sprite_train->getGlobalBounds();
-		if(ColliderWagon.intersects(ColliderTrain))
-		{
-			//Motrar en pantalla la suma 
-			Insertar(5);
+		if(ColliderTrain.intersects(actual->get_sprite().getGlobalBounds()))
+		{	
+			reloj->restart();			
+			int tiempo_entero = reloj->getElapsedTime().asSeconds();
+			txt_tiempo->setString("Tiempo: "+to_string(tiempo_entero));
+			//txt_tiempo-
+			cout<<"colisiono"<<endl;			
 			CantVagones ++;
-			return;
+			actual->spriteWagon->setPosition(sprite_train->getPosition().x-80,sprite_train->getPosition().y);
+			actual->moverVagon();
+			return; 
 		}
 		else
 		{
 			actual = actual->siguiente;
 		}
-	}
+	}	
 }
 
 void Tren::MostrarLista(RenderWindow &wnd)
 {
-	Vagon *actual = primero;
-	Vector2f posicion;
-	posicion.x = 15;
-	posicion.y =30;
-	while(actual = NULL)
-	{
-		actual->txt_vagon->setPosition(actual->spriteWagon->getPosition().x /2,actual->spriteWagon->getPosition().y);	
-		actual->dibujar(wnd);
-		actual = actual->siguiente; //apunto al nodo siguiente
-	}
+
 }
 
 void Tren::Dibujar(RenderWindow *wnd)
-{
+{	
+	Vagon *aux = laListaEsEsto;
+	
+	while(aux != NULL) {
+		wnd->draw(*aux->spriteWagon);
+		wnd->draw(*aux->txt_vagon);
+		aux = aux->siguiente;		
+	}
 	wnd->draw(*sprite_train);
+	
+
 }
 
 void Tren::Actualizar()
@@ -125,4 +142,9 @@ void Tren::Actualizar()
 		cout<<"Paso los limites"<<endl;
 		sprite_train->setPosition(0,sprite_train->getPosition().y + 100);
 	}	
+}
+
+Sprite Tren::get_sprite()
+{
+	return *sprite_train;
 }

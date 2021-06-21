@@ -29,9 +29,7 @@ private:
 	Clock *reloj;
 	Time *tiempo;	
 	//Tren
-	Tren *train;
-	//Vagon 
-	Vagon *wagon; //Lista
+	Tren *train;	
 	//Sonido 
 	SoundBuffer* buffer; //Contiene el archivo de sonido
 	Sound* sonido; //Sonido va a cargar el buffer
@@ -44,7 +42,8 @@ private:
 	//Textos
 	Font * fuente1;
 	Text * txt_tiempo;
-	Text* txt_game_over;	
+	Text* txt_game_over;
+	Text * txt_operacion;
 	//Sprites y texturas
 	Texture* tex_background;
 	Sprite* spr_background;	
