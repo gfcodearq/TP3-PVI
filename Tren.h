@@ -21,6 +21,7 @@ private:
 	Text * txt_tiempo;
 	Text * txt_operacion;
 	bool colisiono;
+	int a,b,c,respuesta;
 public:
 	//Constructor de la clase tren
 	Tren(int posX,int posY); 
@@ -52,7 +53,7 @@ public:
 	
 	//Paro el Tren
 	void PararTren();
-	void Operacion();
+	
 	//Devuelve el sprite
 	Sprite get_sprite();
 	

@@ -43,7 +43,6 @@ void Juego::gameloop()
 		{
 			train->Actualizar();
 			train->ControlarColisiones();
-			//train->Operacion();
 			procesar_eventos();
 			procesar_colisiones();				
 		}		

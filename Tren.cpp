@@ -31,7 +31,7 @@ Tren::Tren(int posX,int posY)
 	txt_operacion = new Text;
 	txt_operacion->setFont(*fuente2);
 	txt_operacion->scale(0.5f,0.5f);
-	//txt_operacion->setString("Resuelva la operacion");
+	txt_operacion->setString("Resuelva la operacion" + to_string(a) +"+" + to_string(b));
 	txt_operacion->setPosition(300,25);	
 	
 	//Creo reloj
@@ -42,6 +42,10 @@ Tren::Tren(int posX,int posY)
 	//Inicializo boleano en false	
 	bool TrenVacio = false;
 	colisiono = false;
+	
+	a = rand() % 9 + 1;
+	b = rand() % 9 + 1;
+	
 }
 
 void Tren::Insertar(int v,int posX,int posY) //Metodo para insertar vagones de forma ordenada
@@ -121,8 +125,6 @@ void Tren::ControlarColisiones()
 {
 	Vagon *actual = laListaEsEsto;	
 	FloatRect ColliderTrain = sprite_train->getGlobalBounds();
-//	ColliderTrain.width *=0.5;
-//	ColliderTrain.left += ColliderTrain.width * .25f;
 	while(actual != NULL)
 	{		
 		if(ColliderTrain.intersects(actual->get_sprite().getGlobalBounds())) //Si intersecta el vagon con el tren
@@ -188,28 +190,4 @@ Sprite Tren::get_sprite()
 	return *sprite_train;
 }
 
-void Tren::Operacion()
-{
-	Vagon *actual = laListaEsEsto;	
-	if(colisiono)
-	{
-		
-		int a = rand() % 9 + 1;
-		int b = rand() % 9 + 1;
-		
-		txt_operacion->setString("Indique el resultado de la operacion");
-		int c = a + b; //Operacion 
-		cout<<c;
-		int respuesta; //entero respuesta
-		cin>>respuesta; //ingresa la respuesta
-		if(c == respuesta)
-		{
-			sprite_train->setPosition(sprite_train->getPosition().x+3,sprite_train->getPosition().y);
-			cout<<"Correcto";
-		}
-		else
-		{
-			cout<<"Incorrecto";//Borrar(actual->getNroVagon());
-		}
-	}
 }
