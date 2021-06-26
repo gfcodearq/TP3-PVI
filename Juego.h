@@ -40,10 +40,8 @@ private:
 	SoundBuffer* buffer_game_over;
 	Sound* sonido_game_over;
 	//Textos
-	Font * fuente1;
-	Text * txt_tiempo;
-	Text* txt_game_over;
-	Text * txt_operacion;
+	Font * fuente1;	
+	Text* txt_game_over;	
 	//Sprites y texturas
 	Texture* tex_background;
 	Sprite* spr_background;	

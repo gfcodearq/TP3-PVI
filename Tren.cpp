@@ -8,18 +8,40 @@ Tren::Tren(int posX,int posY)
 {	
 	tex_train = new Texture;
 	tex_train->loadFromFile("Recursos//Imagenes//locomotora.png");
+	//Sprite tren -creo-escalo-seteo posicion
 	sprite_train = new Sprite(*tex_train);
 	sprite_train->scale(0.7,0.7);
 	sprite_train->setPosition(posX,posY);
+	//Inicializo la lista
 	laListaEsEsto = NULL;
+	//Inserto vagones
+	Insertar(15,120,51);
+	Insertar(1,30,51);
 	Insertar(5,200,155);
-	Insertar(5,500,350);	
-	reloj = new Clock;
-	tiempo =  new Time;	
-	fuente3 = new Font;
+	Insertar(8,500,350);
+	//Textos	
+	fuente2 = new Font;
+	fuente2->loadFromFile("Recursos\\Textos\\Stenciland.otf");
 	txt_tiempo = new Text;
-	txt_tiempo->setFont(*fuente3);
+	txt_tiempo->setFont(*fuente2);
+	txt_tiempo->setColor(Color::Red);
+	txt_tiempo->setString("Tiempo:"+to_string(5));
 	txt_tiempo->setPosition(700,20);	
+	
+	txt_operacion = new Text;
+	txt_operacion->setFont(*fuente2);
+	txt_operacion->scale(0.5f,0.5f);
+	//txt_operacion->setString("Resuelva la operacion");
+	txt_operacion->setPosition(300,25);	
+	
+	//Creo reloj
+	reloj = new Clock;
+	tiempo =  new Time;
+	int tiempoEntero = reloj->getElapsedTime().asSeconds();//Variable entera para alojar el tiempo que pasa
+	txt_tiempo->setString(to_string(tiempoEntero));
+	//Inicializo boleano en false	
+	bool TrenVacio = false;
+	colisiono = false;
 }
 
 void Tren::Insertar(int v,int posX,int posY) //Metodo para insertar vagones de forma ordenada
@@ -27,12 +49,16 @@ void Tren::Insertar(int v,int posX,int posY) //Metodo para insertar vagones de f
 	Vagon *wagon = new Vagon(v,wagon->spriteWagon,wagon->siguiente);
 	wagon->spriteWagon->setPosition(posX,posY);
 	wagon->setValor(v);
-	Vagon *firstAuxiliar = laListaEsEsto;
-	Vagon *secondAuxiliar = NULL;
+	wagon->txt_vagon->setPosition(posX+40,posY);
+	wagon->txt_vagon->setString(to_string(v));
 	
-	while(firstAuxiliar != NULL && wagon->nroEnVagon > v )
+	Vagon *firstAuxiliar = laListaEsEsto; //Creo el primer nodo que apunta a la lista
+	Vagon *secondAuxiliar = NULL; //Segundo apunta a null
+	
+	
+	while(firstAuxiliar != NULL && wagon->nroEnVagon > v ) //Mientras que exista algo en la lista y el valor del vagon sea mayor al valor del vagon actual
 	{
-		secondAuxiliar = firstAuxiliar;
+		secondAuxiliar = firstAuxiliar;	
 		firstAuxiliar = firstAuxiliar->siguiente;		
 	}
 	if(laListaEsEsto == firstAuxiliar)
@@ -54,10 +80,10 @@ void Tren::Borrar(int v) //Metodo para eliminar vagones
 		Vagon *referenciaAnterior = NULL;
 		while(auxiliarBorrado !=NULL) //Y la suma de correctamente
 		{
-			referenciaAnterior = auxiliarBorrado;
+			referenciaAnterior = auxiliarBorrado; 
 			auxiliarBorrado = auxiliarBorrado->siguiente;
 		}
-		if(auxiliarBorrado == NULL)
+		if(auxiliarBorrado == NULL) //Si no hay nada en la lista no realiza ninguna accion
 		{
 			return;
 		}
@@ -79,33 +105,31 @@ void Tren::Borrar(int v) //Metodo para eliminar vagones
 
 bool Tren::TrenVacio() //Si el tren no tiene vagones retorna true
 {
-	if(laListaEsEsto == NULL)
+	if(laListaEsEsto == NULL) //si la lista esta devuelve true 
 	{
 		return true;
 	}
 }
 
+
 int Tren::obtenerCantidadVagones()//obtiene la canitadad de vagones 
 {
-	return CantVagones;
+	return CantVagones; 
 }
 
 void Tren::ControlarColisiones()
 {
-	Vagon *actual = laListaEsEsto;
-	FloatRect ColliderTrain = sprite_train->getGlobalBounds();	
+	Vagon *actual = laListaEsEsto;	
+	FloatRect ColliderTrain = sprite_train->getGlobalBounds();
+//	ColliderTrain.width *=0.5;
+//	ColliderTrain.left += ColliderTrain.width * .25f;
 	while(actual != NULL)
 	{		
-		if(ColliderTrain.intersects(actual->get_sprite().getGlobalBounds()))
+		if(ColliderTrain.intersects(actual->get_sprite().getGlobalBounds())) //Si intersecta el vagon con el tren
 		{	
-			reloj->restart();			
-			int tiempo_entero = reloj->getElapsedTime().asSeconds();
-			txt_tiempo->setString("Tiempo: "+to_string(tiempo_entero));
-			//txt_tiempo-
-			cout<<"colisiono"<<endl;			
-			CantVagones ++;
-			actual->spriteWagon->setPosition(sprite_train->getPosition().x-80,sprite_train->getPosition().y);
-			actual->moverVagon();
+			colisiono = true;
+			cout<<"colisiono"<<endl; //Mensaje de comprobacion			
+			CantVagones ++;	//Aumento la cantidad de vagones			
 			return; 
 		}
 		else
@@ -124,27 +148,68 @@ void Tren::Dibujar(RenderWindow *wnd)
 {	
 	Vagon *aux = laListaEsEsto;
 	
-	while(aux != NULL) {
-		wnd->draw(*aux->spriteWagon);
-		wnd->draw(*aux->txt_vagon);
-		aux = aux->siguiente;		
+	while(aux != NULL) { //Mientras no este dibujado
+		wnd->draw(*aux->spriteWagon); //dibuja el sprite del vagon
+		wnd->draw(*aux->txt_vagon);	 //dibuja el texto del vagon	
+		aux = aux->siguiente; //Señala al nodo siguiente
 	}
-	wnd->draw(*sprite_train);
+	wnd->draw(*sprite_train);//Dibujo el sprite del tren
+	if(colisiono)
+	{
+		wnd->draw(*txt_tiempo);
+		wnd->draw(*txt_operacion);
+	}
 	
-
+	
 }
 
-void Tren::Actualizar()
+void Tren::Actualizar() //Actualiza la posicion del tren
 {
+	Vagon *actual = laListaEsEsto;
 	sprite_train->setPosition(sprite_train->getPosition().x+3,sprite_train->getPosition().y);
 	if(sprite_train->getPosition().x > 800) // si pasa los limites de la pantalla bajo un nivel
 	{
 		cout<<"Paso los limites"<<endl;
 		sprite_train->setPosition(0,sprite_train->getPosition().y + 100);
-	}	
+	}			
+	if(colisiono)
+	{
+		PararTren();
+	}
+}
+
+void Tren::PararTren()
+{
+	sprite_train->setPosition(sprite_train->getPosition().x-3,sprite_train->getPosition().y);
 }
 
 Sprite Tren::get_sprite()
 {
 	return *sprite_train;
+}
+
+void Tren::Operacion()
+{
+	Vagon *actual = laListaEsEsto;	
+	if(colisiono)
+	{
+		
+		int a = rand() % 9 + 1;
+		int b = rand() % 9 + 1;
+		
+		txt_operacion->setString("Indique el resultado de la operacion");
+		int c = a + b; //Operacion 
+		cout<<c;
+		int respuesta; //entero respuesta
+		cin>>respuesta; //ingresa la respuesta
+		if(c == respuesta)
+		{
+			sprite_train->setPosition(sprite_train->getPosition().x+3,sprite_train->getPosition().y);
+			cout<<"Correcto";
+		}
+		else
+		{
+			cout<<"Incorrecto";//Borrar(actual->getNroVagon());
+		}
+	}
 }

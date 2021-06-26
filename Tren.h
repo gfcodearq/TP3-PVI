@@ -1,6 +1,6 @@
 #include "Vagon.h"
 
-typedef Vagon *pnodo; //Nuestra lista??
+typedef Vagon *pnodo; 
 
 class Tren{
 	
@@ -8,21 +8,22 @@ private:
 	//Punteros de la lista
 	pnodo primero; //primer vagon 
 	pnodo actual;  //vagon actual
-	
-	Vagon *laListaEsEsto;//los anteriores son apuntadores a elementos específicos de la lista
-	
+	Vagon *laListaEsEsto; //Lista
+	//Texturas y sprites
 	Texture *tex_train;
 	Sprite *sprite_train;	
 	int CantVagones = 2;	
-	
 	//Reloj	
 	Clock *reloj;
 	Time *tiempo;	
-	
-	Font * fuente3;
+	//Fuentes y textos
+	Font * fuente2;
 	Text * txt_tiempo;
+	Text * txt_operacion;
+	bool colisiono;
 public:
-	Tren(int posX,int posY);
+	//Constructor de la clase tren
+	Tren(int posX,int posY); 
 	
 	//Devuelve el valor del último nodo
 	int Ultimo();
@@ -34,7 +35,7 @@ public:
 	void Borrar(int v);
 	
 	//Verifica si la lista está vacía
-	bool TrenVacio();
+	bool TrenVacio();	
 	
 	//Devuelve la cantidad de nodos de la lista
 	int obtenerCantidadVagones();
@@ -45,10 +46,17 @@ public:
 	void MostrarLista(RenderWindow& wnd);
 	//Dibuja los elementos de la lista
 	void Dibujar(RenderWindow *wnd);
+	
 	//Actualiza el sprite 
 	void Actualizar();
 	
-	Sprite get_sprite();	
+	//Paro el Tren
+	void PararTren();
+	void Operacion();
+	//Devuelve el sprite
+	Sprite get_sprite();
+	
+	//Destructor
 	~Tren();
 	
 };

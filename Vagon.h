@@ -13,7 +13,7 @@ class Vagon
 {
 private:
 	//Numero para imprimir en vagon
-	int nroEnVagon = 10;
+	int nroEnVagon;
 	//Vagon siguiente
 	Vagon *siguiente;
 	//Spritedel vagon
@@ -21,19 +21,15 @@ private:
 	//Fuentes y textos
 	Font *fuente;
 	Text *txt_vagon;
-	//Posicion del vagon
-	Vector2f posicion;
 	friend class Tren;	
 public:
-	Vagon (int nro, sf::Sprite *spr, Vagon *sig = NULL)
+	Vagon (int nro, sf::Sprite *spr, Vagon *sig = NULL) //Constructor de la clase vagon
 	{		
 		nroEnVagon = nro;
 		fuente = new Font();
 		fuente->loadFromFile("Recursos//Textos//Stenciland.otf");			
 		txt_vagon = new Text();
-		txt_vagon->setFont(*fuente);
-		txt_vagon->setString(to_string(nroEnVagon));
-		txt_vagon->setPosition(200,155);
+		txt_vagon->setFont(*fuente);				
 		Texture *tex_vagon = new Texture();
 		tex_vagon->loadFromFile("Recursos//Imagenes//vagon.png");	
 		spriteWagon = new Sprite(*tex_vagon);
@@ -41,18 +37,18 @@ public:
 	}
 	~Vagon();
 	
-	int getNroVagon(){return nroEnVagon;};
-	void dibujar(RenderWindow &wnd){wnd.draw(*spriteWagon);};
-	void setValor(int newValor){txt_vagon->setString(to_string(newValor));};
-	FloatRect ColliderVagon(){spriteWagon->getGlobalBounds();};
-	Sprite get_sprite() {return *spriteWagon;};
-	void moverVagon()
+	int getNroVagon(){return nroEnVagon;}; //Retorna el numero del vagon 
+	void dibujar(RenderWindow &wnd){wnd.draw(*spriteWagon);}; //Dibuja el sprite del vagon
+	void setValor(int newValor){txt_vagon->setString(to_string(newValor));}; //Setea el valor del n° del vagon 
+	FloatRect ColliderVagon(){spriteWagon->getGlobalBounds();}; //Devuelve el bounds del sprite del vagon
+	Sprite get_sprite() {return *spriteWagon;}; //devuelve el sprite del vagon
+	void moverVagon() //mueve el vagon a traves del escenario
 	{
-		spriteWagon->setPosition(spriteWagon->getPosition().x+3,spriteWagon->getPosition().y);
-		if(spriteWagon->getPosition().x > 800) // si pasa los limites de la pantalla bajo un nivel
-		{			
-			spriteWagon->setPosition(1,spriteWagon->getPosition().y + 100);
-		}
+		spriteWagon->setPosition(spriteWagon->getPosition().x+3,spriteWagon->getPosition().y);			
 	}
+//	void pararVagon() //para el vagon 
+//	{
+//		spriteWagon->setPosition(spriteWagon->getPosition().x,spriteWagon->getPosition().y);
+//	}
 };
 #endif
