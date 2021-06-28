@@ -25,8 +25,12 @@ Juego::Juego(Vector2i resolucion, string titulo)
 	sonido_game = new Sound;
 	sonido_colision = new Sound;
 	//Inicio game over en false
-	game_over = false;	
-	train = new Tren(210,51);	
+	game_over = false;
+	//Creo el tren
+	train = new Tren(210,51);
+	//Inserto vagones
+//	train->Insertar(5,200,155);
+//	train->Insertar(8,500,350);	
 	//Gameloop
 	gameloop();	
 }
@@ -58,10 +62,6 @@ void Juego::procesar_eventos()
 		{
 			wnd->close();
 		}
-//		if(//evento->)
-//		{
-//			
-//		}
 	}	
 }
 

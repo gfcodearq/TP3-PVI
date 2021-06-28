@@ -13,15 +13,13 @@ Tren::Tren(int posX,int posY)
 	sprite_train->scale(0.7,0.7);
 	sprite_train->setPosition(posX,posY);
 	//Inicializo la lista
-	laListaEsEsto = NULL;
-	//Inserto vagones
-	Insertar(15,120,51);
-	Insertar(1,30,51);
-	Insertar(5,200,155);
-	Insertar(8,500,350);
+	laListaEsEsto = NULL;	
+	Insertar(1,30,51); //Nodo inicial 
+	Insertar(15,120,51); //Nodo inicial
+	
 	//Textos	
 	fuente2 = new Font;
-	fuente2->loadFromFile("Recursos\\Textos\\Stenciland.otf");
+	fuente2->loadFromFile("Recursos\\Textos\\GeoSlab703 Md BT Bold.ttf");
 	txt_tiempo = new Text;
 	txt_tiempo->setFont(*fuente2);
 	txt_tiempo->setColor(Color::Red);
@@ -31,6 +29,7 @@ Tren::Tren(int posX,int posY)
 	txt_operacion = new Text;
 	txt_operacion->setFont(*fuente2);
 	txt_operacion->scale(0.5f,0.5f);
+	txt_operacion->setColor(Color::Red);
 	txt_operacion->setString("Resuelva la operacion" + to_string(a) +"+" + to_string(b));
 	txt_operacion->setPosition(300,25);	
 	
@@ -123,22 +122,23 @@ int Tren::obtenerCantidadVagones()//obtiene la canitadad de vagones
 
 void Tren::ControlarColisiones()
 {
-	Vagon *actual = laListaEsEsto;	
-	FloatRect ColliderTrain = sprite_train->getGlobalBounds();
-	while(actual != NULL)
-	{		
-		if(ColliderTrain.intersects(actual->get_sprite().getGlobalBounds())) //Si intersecta el vagon con el tren
-		{	
-			colisiono = true;
-			cout<<"colisiono"<<endl; //Mensaje de comprobacion			
-			CantVagones ++;	//Aumento la cantidad de vagones			
-			return; 
-		}
-		else
-		{
-			actual = actual->siguiente;
-		}
-	}	
+//	Vagon *actual = laListaEsEsto;	// me posiciono en el primer nodo de la lista
+//	FloatRect ColliderVagon = actual->spriteWagon->getGlobalBounds();
+//	while(actual != NULL)
+//	{		
+//		if(ColliderVagon.intersects()) //Si intersecta el vagon con el tren
+//		{				
+//			colisiono = true;
+//			cout<<"colisiono"<<endl; //Mensaje de comprobacion	
+//			reloj->restart(); //inicio el reloj
+//			CantVagones ++;	//Aumento la cantidad de vagones			
+//			return; 
+//		}
+//		else
+//		{
+//			actual = actual->siguiente;
+//		}
+//	}	
 }
 
 void Tren::MostrarLista(RenderWindow &wnd)
@@ -167,13 +167,31 @@ void Tren::Dibujar(RenderWindow *wnd)
 
 void Tren::Actualizar() //Actualiza la posicion del tren
 {
-	Vagon *actual = laListaEsEsto;
-	sprite_train->setPosition(sprite_train->getPosition().x+3,sprite_train->getPosition().y);
-	if(sprite_train->getPosition().x > 800) // si pasa los limites de la pantalla bajo un nivel
+	Vagon *actual = laListaEsEsto; //primer nodo en la lista
+	sprite_train->setPosition(sprite_train->getPosition().x+3,sprite_train->getPosition().y);	
+	actual->spriteWagon->setPosition(actual->spriteWagon->getPosition().x+3,actual->spriteWagon->getPosition().y); //muevo el primer nodo de la lista
+	actual->siguiente->spriteWagon->setPosition(actual->siguiente->spriteWagon->getPosition().x+3,actual->siguiente->spriteWagon->getPosition().y); //muevo el nodo siguiente
+	actual->txt_vagon->setPosition(actual->txt_vagon->getPosition().x+3,actual->txt_vagon->getPosition().y); //actualizo la posicion del texto del primer nodo
+	actual->siguiente->txt_vagon->setPosition(actual->siguiente->txt_vagon->getPosition().x+3,actual->siguiente->txt_vagon->getPosition().y); //actualizo la posicion del texto del nodo siguiente
+	
+	if(sprite_train->getPosition().x > 800) // si el tren pasa los limites de la pantalla bajo un nivel
 	{
 		cout<<"Paso los limites"<<endl;
-		sprite_train->setPosition(0,sprite_train->getPosition().y + 100);
-	}			
+		sprite_train->setPosition(0,sprite_train->getPosition().y + 100);		
+	}	
+	
+	if(actual->spriteWagon->getPosition().x > 800 ) 
+	{
+		actual->spriteWagon->setPosition(0,actual->spriteWagon->getPosition().y + 100);
+		actual->txt_vagon->setPosition(40,actual->txt_vagon->getPosition().y + 100);
+	}
+	
+	if(actual->siguiente->spriteWagon->getPosition().x > 800 )
+	{
+		actual->siguiente->spriteWagon->setPosition(0,actual->siguiente->spriteWagon->getPosition().y + 100);
+		actual->siguiente->txt_vagon->setPosition(40,actual->siguiente->txt_vagon->getPosition().y + 100);
+	}
+	   
 	if(colisiono)
 	{
 		PararTren();
@@ -190,4 +208,4 @@ Sprite Tren::get_sprite()
 	return *sprite_train;
 }
 
-}
+

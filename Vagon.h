@@ -27,7 +27,7 @@ public:
 	{		
 		nroEnVagon = nro;
 		fuente = new Font();
-		fuente->loadFromFile("Recursos//Textos//Stenciland.otf");			
+		fuente->loadFromFile("Recursos//Textos//GeoSlab703 Md BT Bold.ttf");			
 		txt_vagon = new Text();
 		txt_vagon->setFont(*fuente);				
 		Texture *tex_vagon = new Texture();
@@ -42,13 +42,6 @@ public:
 	void setValor(int newValor){txt_vagon->setString(to_string(newValor));}; //Setea el valor del n° del vagon 
 	FloatRect ColliderVagon(){spriteWagon->getGlobalBounds();}; //Devuelve el bounds del sprite del vagon
 	Sprite get_sprite() {return *spriteWagon;}; //devuelve el sprite del vagon
-	void moverVagon() //mueve el vagon a traves del escenario
-	{
-		spriteWagon->setPosition(spriteWagon->getPosition().x+3,spriteWagon->getPosition().y);			
-	}
-//	void pararVagon() //para el vagon 
-//	{
-//		spriteWagon->setPosition(spriteWagon->getPosition().x,spriteWagon->getPosition().y);
-//	}
+	
 };
 #endif
