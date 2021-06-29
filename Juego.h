@@ -42,6 +42,8 @@ private:
 	//Textos
 	Font * fuente1;	
 	Text* txt_game_over;	
+	Text * txt_tiempo;
+	Text * txt_operacion;
 	//Sprites y texturas
 	Texture* tex_background;
 	Sprite* spr_background;	
@@ -49,5 +51,10 @@ private:
 	Sprite *spr_central_inicio;
 	Texture * tex_central_final;
 	Sprite *spr_central_final;	
+	Texture *tex_vagon;
+	Sprite *spr_vagon;
+	Sprite *spr_vagon2;
+	//Booleanos
+	bool colisiono;
 };
 #endif

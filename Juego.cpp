@@ -15,8 +15,7 @@ Juego::Juego(Vector2i resolucion, string titulo)
 	evento = new Event;
 	//Relojes
 	reloj = new Clock;
-	tiempo = new Time;
-	reloj->restart(); //Doy inicio al reloj
+	tiempo = new Time;	
 	//Sonidos
 	buffer = new SoundBuffer;
 	buffer_game = new SoundBuffer;
@@ -28,6 +27,8 @@ Juego::Juego(Vector2i resolucion, string titulo)
 	game_over = false;
 	//Creo el tren
 	train = new Tren(210,51);
+	
+	colisiono = false;
 	//Inserto vagones
 //	train->Insertar(5,200,155);
 //	train->Insertar(8,500,350);	
@@ -82,13 +83,36 @@ void Juego::cargar_recursos()
 	spr_central_final = new Sprite(*tex_central_final);
 	spr_central_final->setPosition(650,400);
 	
+	tex_vagon = new Texture();
+	tex_vagon->loadFromFile("Recursos//Imagenes//vagon.png");	
+	spr_vagon = new Sprite(*tex_vagon);
+	spr_vagon->scale(0.7,0.7);
+	spr_vagon->setPosition(200,155);
+	spr_vagon2 = new Sprite(*tex_vagon);
+	spr_vagon2->scale(0.7,0.7);
+	spr_vagon2->setPosition(500,350);	
+	
 	fuente1 = new Font;
-	fuente1->loadFromFile("Recursos\\Textos\\Stenciland.otf");
+	fuente1->loadFromFile("Recursos\\Textos\\GeoSlab703 Md BT Bold.ttf");
+	
 	txt_game_over = new Text();
 	txt_game_over->setFont(*fuente1);
 	txt_game_over->setPosition(300,260);
 	txt_game_over->setString("GAME OVER");
 	txt_game_over->setColor(Color::Red);
+	
+	txt_operacion = new Text();
+	txt_operacion->setFont(*fuente1);
+	txt_operacion->setPosition(330,260);
+	txt_operacion->setString("asdasd");
+	txt_operacion->setColor(Color::Red);
+	
+	txt_tiempo = new Text();
+	txt_tiempo->setFont(*fuente1);
+	txt_tiempo->setColor(Color::Red);
+	txt_tiempo->setString("Tiempo:"+to_string(5));
+	txt_tiempo->scale(0.5,0.5);
+	txt_tiempo->setPosition(700,20);	
 	
 	//Cargar sonidos
 	if(!buffer->loadFromFile("Recursos\\sonidos\\"))
@@ -115,6 +139,11 @@ void Juego::procesar_colisiones()
 	{
 		game_over = true;
 	}
+	if(train->get_sprite().getGlobalBounds().intersects(spr_vagon->getGlobalBounds()))
+	{
+		colisiono = true;
+		cout<<"Colisiono";
+	}
 	train->ControlarColisiones();	
 }
 
@@ -124,11 +153,16 @@ void Juego::dibujar()
 	wnd->draw(*spr_background);
 	wnd->draw(*spr_central_inicio);
 	wnd->draw(*spr_central_final);	
+	wnd->draw(*spr_vagon);
 	train->Dibujar(wnd);
 	train->MostrarLista(*wnd);	
 	if(game_over)
 	{
 		wnd->draw(*txt_game_over);
+	}
+	if(colisiono)
+	{
+		wnd->draw(*txt_tiempo);		
 	}
 	wnd->display();
 	
@@ -136,5 +170,10 @@ void Juego::dibujar()
 
 void Juego::actualizar()
 {
-	
+	if(colisiono)
+	{
+//		reloj->restart(); //Doy inicio al reloj
+//		int tiempoEntero = reloj->getElapsedTime().asSeconds(); //paso a entero el numero del reloj
+//		txt_tiempo->setString("Tiempo: "+to_string(tiempoEntero));		
+	}
 }
