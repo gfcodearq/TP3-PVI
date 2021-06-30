@@ -189,6 +189,12 @@ void Juego::actualizar()
 	txt_tiempo->scale(0.5,0.5);
 	txt_tiempo->setString("Tiempo:"+to_string(tiempoEntero));
 	txt_tiempo->setPosition(700,20);
+	//train->PararTren();
+	if(tiempoEntero > 5)
+		{			
+		cout<<"Se borro vagon";
+		//Hacer sonido 
+		}
 	}
 }
 	

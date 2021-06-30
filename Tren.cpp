@@ -14,9 +14,9 @@ Tren::Tren(int posX,int posY)
 	sprite_train->setPosition(posX,posY);
 	//Inicializo la lista
 	laListaEsEsto = NULL;	
-	Insertar(1,30,51); //Nodo inicial 
-	Insertar(15,120,51); //Nodo inicial
 	
+	Insertar(1,30,51); //Nodo inicial 	
+	Insertar(15,120,51); //Nodo inicial
 	//Inicializo boleano en false	
 	bool TrenVacio = false;
 	colisiono = false;	
@@ -84,7 +84,7 @@ void Tren::Borrar(int v) //Metodo para eliminar vagones
 
 bool Tren::TrenVacio() //Si el tren no tiene vagones retorna true
 {
-	if(laListaEsEsto == NULL) //si la lista esta devuelve true 
+	if(laListaEsEsto == NULL || CantVagones == 0) //si la lista esta devuelve true 
 	{
 		return true;
 	}
@@ -176,7 +176,9 @@ void Tren::Actualizar() //Actualiza la posicion del tren
 
 void Tren::PararTren()
 {
-	sprite_train->setPosition(sprite_train->getPosition().x-3,sprite_train->getPosition().y);
+	sprite_train->setPosition(sprite_train->getPosition().x-2.5,sprite_train->getPosition().y);	
+	actual->txt_vagon->setPosition(actual->txt_vagon->getPosition().x-2.5,actual->txt_vagon->getPosition().y); //actualizo la posicion del texto del primer nodo
+//	actual->siguiente->txt_vagon->setPosition(actual->siguiente->txt_vagon->getPosition().x-2.5,actual->siguiente->txt_vagon->getPosition().y); //actualizo la posicion del texto del nodo siguiente
 }
 
 Sprite Tren::get_sprite()
