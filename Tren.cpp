@@ -17,33 +17,9 @@ Tren::Tren(int posX,int posY)
 	Insertar(1,30,51); //Nodo inicial 
 	Insertar(15,120,51); //Nodo inicial
 	
-	//Textos	
-	fuente2 = new Font;
-	fuente2->loadFromFile("Recursos\\Textos\\GeoSlab703 Md BT Bold.ttf");
-	txt_tiempo = new Text;
-	txt_tiempo->setFont(*fuente2);
-	txt_tiempo->setColor(Color::Red);
-	txt_tiempo->setString("Tiempo:"+to_string(5));
-	txt_tiempo->setPosition(700,20);	
-	
-	txt_operacion = new Text;
-	txt_operacion->setFont(*fuente2);
-	txt_operacion->scale(0.5f,0.5f);
-	txt_operacion->setColor(Color::Red);
-	txt_operacion->setString("Resuelva la operacion" + to_string(a) +"+" + to_string(b));
-	txt_operacion->setPosition(300,25);	
-	
-	//Creo reloj
-	reloj = new Clock;
-	tiempo =  new Time;
-	int tiempoEntero = reloj->getElapsedTime().asSeconds();//Variable entera para alojar el tiempo que pasa
-	txt_tiempo->setString(to_string(tiempoEntero));
 	//Inicializo boleano en false	
 	bool TrenVacio = false;
-	colisiono = false;
-	
-	a = rand() % 9 + 1;
-	b = rand() % 9 + 1;
+	colisiono = false;	
 	
 }
 

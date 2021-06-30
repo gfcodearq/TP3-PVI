@@ -20,6 +20,7 @@ public:
 	void dibujar();	
 	void procesar_colisiones();
 	void actualizar();
+	void operacion();
 	bool game_over;
 private:
 	RenderWindow* wnd;
@@ -56,5 +57,6 @@ private:
 	Sprite *spr_vagon2;
 	//Booleanos
 	bool colisiono;
+	int a,b,c,respuesta,tiempoEntero;
 };
 #endif

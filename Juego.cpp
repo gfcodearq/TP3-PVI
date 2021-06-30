@@ -16,6 +16,7 @@ Juego::Juego(Vector2i resolucion, string titulo)
 	//Relojes
 	reloj = new Clock;
 	tiempo = new Time;	
+	
 	//Sonidos
 	buffer = new SoundBuffer;
 	buffer_game = new SoundBuffer;
@@ -26,12 +27,13 @@ Juego::Juego(Vector2i resolucion, string titulo)
 	//Inicio game over en false
 	game_over = false;
 	//Creo el tren
-	train = new Tren(210,51);
-	
+	train = new Tren(210,51);	
 	colisiono = false;
 	//Inserto vagones
 //	train->Insertar(5,200,155);
-//	train->Insertar(8,500,350);	
+//	train->Insertar(8,500,350);
+	a = rand()% 9+1;
+	b = rand()% 9+1;
 	//Gameloop
 	gameloop();	
 }
@@ -42,6 +44,7 @@ void Juego::gameloop()
 	sonido_game->setVolume(3);
 	sonido_game->play();
 	sonido_game->setLoop(true);
+	
 	while (wnd->isOpen())
 	{
 		if(!game_over)
@@ -49,10 +52,13 @@ void Juego::gameloop()
 			train->Actualizar();
 			train->ControlarColisiones();
 			procesar_eventos();
-			procesar_colisiones();				
+			procesar_colisiones();			
+			actualizar();
 		}		
+		operacion();
 		dibujar();
 	}
+	
 }
 
 void Juego::procesar_eventos()
@@ -101,18 +107,18 @@ void Juego::cargar_recursos()
 	txt_game_over->setString("GAME OVER");
 	txt_game_over->setColor(Color::Red);
 	
-	txt_operacion = new Text();
-	txt_operacion->setFont(*fuente1);
-	txt_operacion->setPosition(330,260);
-	txt_operacion->setString("asdasd");
-	txt_operacion->setColor(Color::Red);
+//	txt_operacion = new Text();
+//	txt_operacion->setFont(*fuente1);
+//	txt_operacion->setPosition(330,260);
+//	txt_operacion->setString("asdasd");
+//	txt_operacion->setColor(Color::Red);
 	
-	txt_tiempo = new Text();
-	txt_tiempo->setFont(*fuente1);
-	txt_tiempo->setColor(Color::Red);
-	txt_tiempo->setString("Tiempo:"+to_string(5));
-	txt_tiempo->scale(0.5,0.5);
-	txt_tiempo->setPosition(700,20);	
+//	txt_tiempo = new Text();
+//	txt_tiempo->setFont(*fuente1);
+//	txt_tiempo->setColor(Color::Red);
+//	txt_tiempo->setString("Tiempo:"+to_string(5));
+//	txt_tiempo->scale(0.5,0.5);
+//	txt_tiempo->setPosition(700,20);	
 	
 	//Cargar sonidos
 	if(!buffer->loadFromFile("Recursos\\sonidos\\"))
@@ -142,6 +148,7 @@ void Juego::procesar_colisiones()
 	if(train->get_sprite().getGlobalBounds().intersects(spr_vagon->getGlobalBounds()))
 	{
 		colisiono = true;
+		reloj->restart();
 		cout<<"Colisiono";
 	}
 	train->ControlarColisiones();	
@@ -163,6 +170,7 @@ void Juego::dibujar()
 	if(colisiono)
 	{
 		wnd->draw(*txt_tiempo);		
+		wnd->draw(*txt_operacion);
 	}
 	wnd->display();
 	
@@ -172,8 +180,39 @@ void Juego::actualizar()
 {
 	if(colisiono)
 	{
-//		reloj->restart(); //Doy inicio al reloj
-//		int tiempoEntero = reloj->getElapsedTime().asSeconds(); //paso a entero el numero del reloj
-//		txt_tiempo->setString("Tiempo: "+to_string(tiempoEntero));		
+
+	tiempoEntero = reloj->getElapsedTime().asSeconds();//Variable entera para alojar el tiempo que pasa
+	
+	txt_tiempo = new Text;
+	txt_tiempo->setFont(*fuente1);
+	txt_tiempo->setColor(Color::Red);
+	txt_tiempo->scale(0.5,0.5);
+	txt_tiempo->setString("Tiempo:"+to_string(tiempoEntero));
+	txt_tiempo->setPosition(700,20);
+	}
+}
+	
+
+void Juego::operacion()
+{	
+	c = a + b;
+	if(colisiono)
+	{	
+	txt_operacion = new Text();
+	txt_operacion->setFont(*fuente1);
+	txt_operacion->setPosition(330,50);
+	txt_operacion->setColor(Color::Red);
+	txt_operacion->scale(0.5,0.5);
+	txt_operacion->setString("Resuelva la operacion " + to_string(a) +"+" + to_string(b));
+	
+//	reloj->restart();
+//	tiempoEntero = reloj->getElapsedTime().asSeconds();//Variable entera para alojar el tiempo que pasa
+//	
+//	txt_tiempo = new Text;
+//	txt_tiempo->setFont(*fuente1);
+//	txt_tiempo->setColor(Color::Red);
+//	txt_tiempo->scale(0.5,0.5);
+//	txt_tiempo->setString("Tiempo:"+to_string(tiempoEntero));
+//	txt_tiempo->setPosition(700,20);		
 	}
 }

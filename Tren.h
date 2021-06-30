@@ -20,8 +20,7 @@ private:
 	Font * fuente2;
 	Text * txt_tiempo;
 	Text * txt_operacion;
-	bool colisiono;
-	int a,b,c,respuesta;
+	bool colisiono;	
 public:
 	//Constructor de la clase tren
 	Tren(int posX,int posY); 
