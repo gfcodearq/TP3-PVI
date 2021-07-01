@@ -178,24 +178,11 @@ void Juego::dibujar()
 
 void Juego::actualizar()
 {
-	if(colisiono)
-	{
 
-	tiempoEntero = reloj->getElapsedTime().asSeconds();//Variable entera para alojar el tiempo que pasa
+
 	
-	txt_tiempo = new Text;
-	txt_tiempo->setFont(*fuente1);
-	txt_tiempo->setColor(Color::Red);
-	txt_tiempo->scale(0.5,0.5);
-	txt_tiempo->setString("Tiempo:"+to_string(tiempoEntero));
-	txt_tiempo->setPosition(700,20);
-	//train->PararTren();
-	if(tiempoEntero > 5)
-		{			
-		cout<<"Se borro vagon";
-		//Hacer sonido 
-		}
-	}
+	
+
 }
 	
 
@@ -210,15 +197,31 @@ void Juego::operacion()
 	txt_operacion->setColor(Color::Red);
 	txt_operacion->scale(0.5,0.5);
 	txt_operacion->setString("Resuelva la operacion " + to_string(a) +"+" + to_string(b));
+	cin>>respuesta;
 	
-//	reloj->restart();
-//	tiempoEntero = reloj->getElapsedTime().asSeconds();//Variable entera para alojar el tiempo que pasa
-//	
-//	txt_tiempo = new Text;
-//	txt_tiempo->setFont(*fuente1);
-//	txt_tiempo->setColor(Color::Red);
-//	txt_tiempo->scale(0.5,0.5);
-//	txt_tiempo->setString("Tiempo:"+to_string(tiempoEntero));
-//	txt_tiempo->setPosition(700,20);		
+	tiempoEntero = reloj->getElapsedTime().asSeconds();//Variable entera para alojar el tiempo que pasa
+	txt_tiempo = new Text;
+	txt_tiempo->setFont(*fuente1);
+	txt_tiempo->setColor(Color::Red);
+	txt_tiempo->scale(0.5,0.5);
+	txt_tiempo->setString("Tiempo:"+to_string(tiempoEntero));
+	txt_tiempo->setPosition(700,20);
+	//train->PararTren();
+	
+//	if(respuesta == c && tiempoEntero < 5)
+//	{
+//		train->Insertar(c,200,155);
+//	}
+	
+	if(tiempoEntero > 5)
+	{			
+		cout<<"Se borro vagon";
+		//Hacer sonido 
 	}
-}
+	}
+	
+	
+}	
+	
+	
+
