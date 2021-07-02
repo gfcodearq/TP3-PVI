@@ -3,6 +3,7 @@
 
 #include "SFML\Graphics.hpp"
 #include "SFML\Audio.hpp"
+#include "SFML\System.hpp"
 #include "Tren.h"
 #include "Vagon.h"
 
@@ -25,7 +26,7 @@ public:
 private:
 	RenderWindow* wnd;
 	//Eventos
-	Event *evento;
+	Event *evento;	
 	//Reloj	
 	Clock *reloj;
 	Time *tiempo;	

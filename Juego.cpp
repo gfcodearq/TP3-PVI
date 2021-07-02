@@ -12,7 +12,7 @@ Juego::Juego(Vector2i resolucion, string titulo)
 	wnd = new RenderWindow(VideoMode(800,600),titulo);
 	wnd->setFramerateLimit(60);
 	//Eventos
-	evento = new Event;
+	evento = new Event;	
 	//Relojes
 	reloj = new Clock;
 	tiempo = new Time;	
@@ -53,7 +53,7 @@ void Juego::gameloop()
 			train->ControlarColisiones();
 			procesar_eventos();
 			procesar_colisiones();			
-			actualizar();
+			actualizar();			
 		}		
 		operacion();
 		dibujar();
@@ -68,7 +68,7 @@ void Juego::procesar_eventos()
 		if (evento->type == Event::Closed)
 		{
 			wnd->close();
-		}
+		}		
 	}	
 }
 
@@ -107,21 +107,8 @@ void Juego::cargar_recursos()
 	txt_game_over->setString("GAME OVER");
 	txt_game_over->setColor(Color::Red);
 	
-//	txt_operacion = new Text();
-//	txt_operacion->setFont(*fuente1);
-//	txt_operacion->setPosition(330,260);
-//	txt_operacion->setString("asdasd");
-//	txt_operacion->setColor(Color::Red);
-	
-//	txt_tiempo = new Text();
-//	txt_tiempo->setFont(*fuente1);
-//	txt_tiempo->setColor(Color::Red);
-//	txt_tiempo->setString("Tiempo:"+to_string(5));
-//	txt_tiempo->scale(0.5,0.5);
-//	txt_tiempo->setPosition(700,20);	
-	
 	//Cargar sonidos
-	if(!buffer->loadFromFile("Recursos\\sonidos\\"))
+	if(!buffer->loadFromFile("Recursos\\sonidos\\tren.wav"))
 	{
 		cout<<"No se pudo cargar efectos"<<endl;
 	}
@@ -131,7 +118,7 @@ void Juego::cargar_recursos()
 		cout<<"No se pudo cargar efectos"<<endl;
 	}
 	sonido_game->setBuffer(*buffer_game);
-	if(!buffer_colision->loadFromFile("Recursos\\sonidos\\"))
+	if(!buffer_colision->loadFromFile("Recursos\\sonidos\\silbato_tren.wav"))
 	{
 		cout<<"No se pudo cargar efectos"<<endl;
 	}
@@ -147,6 +134,7 @@ void Juego::procesar_colisiones()
 	}
 	if(train->get_sprite().getGlobalBounds().intersects(spr_vagon->getGlobalBounds()))
 	{
+		sonido_colision->play();
 		colisiono = true;
 		reloj->restart();
 		cout<<"Colisiono";
@@ -179,10 +167,6 @@ void Juego::dibujar()
 void Juego::actualizar()
 {
 
-
-	
-	
-
 }
 	
 
@@ -196,8 +180,7 @@ void Juego::operacion()
 	txt_operacion->setPosition(330,50);
 	txt_operacion->setColor(Color::Red);
 	txt_operacion->scale(0.5,0.5);
-	txt_operacion->setString("Resuelva la operacion " + to_string(a) +"+" + to_string(b));
-	cin>>respuesta;
+	txt_operacion->setString("Resuelva la operacion " + to_string(a) +"+" + to_string(b));	
 	
 	tiempoEntero = reloj->getElapsedTime().asSeconds();//Variable entera para alojar el tiempo que pasa
 	txt_tiempo = new Text;
@@ -210,7 +193,7 @@ void Juego::operacion()
 	
 //	if(respuesta == c && tiempoEntero < 5)
 //	{
-//		train->Insertar(c,200,155);
+//		train->Insertar(c,200,155); //Inserto un vagon con el numero del resultado
 //	}
 	
 	if(tiempoEntero > 5)

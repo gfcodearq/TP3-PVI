@@ -13,14 +13,12 @@ Tren::Tren(int posX,int posY)
 	sprite_train->scale(0.7,0.7);
 	sprite_train->setPosition(posX,posY);
 	//Inicializo la lista
-	laListaEsEsto = NULL;	
-	
+	laListaEsEsto = NULL;		
 	Insertar(1,30,51); //Nodo inicial 	
 	Insertar(15,120,51); //Nodo inicial
 	//Inicializo boleano en false	
 	bool TrenVacio = false;
-	colisiono = false;	
-	
+	colisiono = false;		
 }
 
 void Tren::Insertar(int v,int posX,int posY) //Metodo para insertar vagones de forma ordenada
