@@ -6,8 +6,7 @@
 using namespace std;
 using namespace sf;
 
-Juego::Juego(Vector2i resolucion, string titulo)
-{
+Juego::Juego(Vector2i resolucion, string titulo){
 	//Window
 	wnd = new RenderWindow(VideoMode(800,600),titulo);
 	wnd->setFramerateLimit(60);
@@ -38,17 +37,14 @@ Juego::Juego(Vector2i resolucion, string titulo)
 	gameloop();	
 }
 
-void Juego::gameloop()
-{
+void Juego::gameloop(){
 	cargar_recursos();
 	sonido_game->setVolume(3);
 	sonido_game->play();
 	sonido_game->setLoop(true);
 	
-	while (wnd->isOpen())
-	{
-		if(!game_over)
-		{
+	while (wnd->isOpen()){
+		if(!game_over){
 			train->Actualizar();
 			train->ControlarColisiones();
 			procesar_eventos();
@@ -61,19 +57,15 @@ void Juego::gameloop()
 	
 }
 
-void Juego::procesar_eventos()
-{
-	while (wnd->pollEvent(*evento))
-	{
-		if (evento->type == Event::Closed)
-		{
+void Juego::procesar_eventos(){
+	while (wnd->pollEvent(*evento)){
+		if (evento->type == Event::Closed){
 			wnd->close();
 		}		
 	}	
 }
 
-void Juego::cargar_recursos()
-{	
+void Juego::cargar_recursos(){	
 	//Sprites y texturas
 	tex_background = new Texture;
 	tex_background->loadFromFile("Recursos\\Imagenes\\background.png");
@@ -108,32 +100,28 @@ void Juego::cargar_recursos()
 	txt_game_over->setColor(Color::Red);
 	
 	//Cargar sonidos
-	if(!buffer->loadFromFile("Recursos\\sonidos\\tren.wav"))
-	{
+	if(!buffer->loadFromFile("Recursos\\sonidos\\tren.wav")){
 		cout<<"No se pudo cargar efectos"<<endl;
 	}
 	sonido->setBuffer(*buffer);
-	if(!buffer_game->loadFromFile("Recursos\\sonidos\\"))
-	{
+	
+	if(!buffer_game->loadFromFile("Recursos\\sonidos\\")){
 		cout<<"No se pudo cargar efectos"<<endl;
 	}
 	sonido_game->setBuffer(*buffer_game);
-	if(!buffer_colision->loadFromFile("Recursos\\sonidos\\silbato_tren.wav"))
-	{
+	
+	if(!buffer_colision->loadFromFile("Recursos\\sonidos\\silbato_tren.wav")){
 		cout<<"No se pudo cargar efectos"<<endl;
 	}
 	sonido_colision->setBuffer(*buffer_colision);
 }
 
-void Juego::procesar_colisiones()
-{	
+void Juego::procesar_colisiones(){	
 	FloatRect ColliderCentralFinal = spr_central_final->getGlobalBounds();
-	if(ColliderCentralFinal.intersects(train->get_sprite().getGlobalBounds()))
-	{
+	if(ColliderCentralFinal.intersects(train->get_sprite().getGlobalBounds())){
 		game_over = true;
 	}
-	if(train->get_sprite().getGlobalBounds().intersects(spr_vagon->getGlobalBounds()))
-	{
+	if(train->get_sprite().getGlobalBounds().intersects(spr_vagon->getGlobalBounds())){
 		sonido_colision->play();
 		colisiono = true;
 		reloj->restart();
@@ -142,8 +130,7 @@ void Juego::procesar_colisiones()
 	train->ControlarColisiones();	
 }
 
-void Juego::dibujar()
-{
+void Juego::dibujar(){
 	wnd->clear(Color(255,255,255,255)); //limpia la pantalla	
 	wnd->draw(*spr_background);
 	wnd->draw(*spr_central_inicio);
@@ -151,30 +138,27 @@ void Juego::dibujar()
 	wnd->draw(*spr_vagon);
 	train->Dibujar(wnd);
 	train->MostrarLista(*wnd);	
-	if(game_over)
-	{
+	
+	if(game_over){
 		wnd->draw(*txt_game_over);
 	}
-	if(colisiono)
-	{
+	
+	if(colisiono){
 		wnd->draw(*txt_tiempo);		
 		wnd->draw(*txt_operacion);
 	}
-	wnd->display();
-	
+	wnd->display();	
 }
 
-void Juego::actualizar()
-{
+void Juego::actualizar(){
 
 }
 	
 
-void Juego::operacion()
-{	
+void Juego::operacion(){	
 	c = a + b;
-	if(colisiono)
-	{	
+	
+	if(colisiono){	
 	txt_operacion = new Text();
 	txt_operacion->setFont(*fuente1);
 	txt_operacion->setPosition(330,50);
@@ -196,14 +180,11 @@ void Juego::operacion()
 //		train->Insertar(c,200,155); //Inserto un vagon con el numero del resultado
 //	}
 	
-	if(tiempoEntero > 5)
-	{			
+	if(tiempoEntero > 5){			
 		cout<<"Se borro vagon";
 		//Hacer sonido 
 	}
-	}
-	
-	
+	}	
 }	
 	
 	

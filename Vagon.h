@@ -9,8 +9,7 @@ using namespace sf;
 //Declaracion de contantes 
 //const int POSICION_CAMINO[5] = {10,50,70,200,300};
 
-class Vagon
-{
+class Vagon{
 private:
 	//Numero para imprimir en vagon
 	int nroEnVagon;
@@ -23,8 +22,7 @@ private:
 	Text *txt_vagon;
 	friend class Tren;	
 public:
-	Vagon (int nro, sf::Sprite *spr, Vagon *sig = NULL) //Constructor de la clase vagon
-	{		
+	Vagon (int nro, sf::Sprite *spr, Vagon *sig = NULL){ //Constructor de la clase vagon
 		nroEnVagon = nro;
 		fuente = new Font();
 		fuente->loadFromFile("Recursos//Textos//GeoSlab703 Md BT Bold.ttf");			
@@ -41,7 +39,6 @@ public:
 	void dibujar(RenderWindow &wnd){wnd.draw(*spriteWagon);}; //Dibuja el sprite del vagon
 	void setValor(int newValor){txt_vagon->setString(to_string(newValor));}; //Setea el valor del n° del vagon 
 	FloatRect ColliderVagon(){spriteWagon->getGlobalBounds();}; //Devuelve el bounds del sprite del vagon
-	Sprite get_sprite() {return *spriteWagon;}; //devuelve el sprite del vagon
-	
+	Sprite get_sprite() {return *spriteWagon;}; //devuelve el sprite del vagon	
 };
 #endif
